@@ -18,6 +18,7 @@ public class CreateCategoryEndpoint : IEndpoint
 
     private static async Task<IResult> HandleAsync(ICategoryHandler handler, CreateCategoryRequest request)
     {
+        request.UserId = "teste@balta.io";
         var result = await handler.CreateAsync(request);
         return result.IsSuccess
             ? TypedResults.Created($"/{result.Data?.Id}", result)

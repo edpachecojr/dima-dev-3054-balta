@@ -9,7 +9,7 @@ namespace Dima.Api.Endpoints.Categories;
 public class DeleteCategoryEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPost("/{id:long}", HandleAsync)
+        => app.MapDelete("/{id:long}", HandleAsync)
             .WithName("Categories: Delete")
             .WithSummary("Remove uma categoria")
             .WithDescription("Remove uma categoria")

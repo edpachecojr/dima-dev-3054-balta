@@ -19,6 +19,7 @@ public class UpdateCategoryEndpoint : IEndpoint
     private static async Task<IResult> HandleAsync(ICategoryHandler handler, UpdateCategoryRequest request, long id)
     {
         request.Id = id;
+        request.UserId = "teste@balta.io";
         var result = await handler.UpdateAsync(request);
         
         return result.IsSuccess 
