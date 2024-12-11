@@ -8,8 +8,8 @@ Este repositório contém a aplicação desenvolvida durante o curso 3054 do bal
 - **Entity Framework Core**: ORM para acesso ao banco de dados.
 - **ASP.NET Core**: Framework para construção de APIs e aplicações web.
 - **Swagger**: Ferramenta para documentação de APIs.
-- **SQLite**: Banco de dados utilizado no projeto.
-- **Angular/React/Vue.js**: Frameworks/libraries para desenvolvimento frontend (escolha uma conforme sua preferência).
+- **MSSQLServer**: Banco de dados utilizado no projeto.
+- **Blazor WebAssembly**: Frameworks/libraries para desenvolvimento frontend.
 - **Docker**: Para containerização da aplicação.
 
 ## Estrutura do Projeto
