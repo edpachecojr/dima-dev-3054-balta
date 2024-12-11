@@ -77,7 +77,20 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
 
     public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var category = await context.Categories
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            return category is null
+                ? new Response<Category?>(null, 404, "Categoria não encontrada")
+                : new Response<Category?>(category);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return new Response<Category?>(null, 500, "Não foi possível recuperar categoria.");
+        }
     }
 
     public async Task<Response<List<Category>>> GetAllAsync(GetAllCategoriesRequest request)
