@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Dima.Api.Common.Api;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
@@ -15,17 +16,20 @@ public class GetCategoryByIdEndpoint : IEndpoint
             .WithDescription("Recupera uma categoria")
             .WithOrder(4)
             .Produces<Response<Category?>>();
-    
-    private static async Task<IResult> HandleAsync(ICategoryHandler handler, long id)
+
+    private static async Task<IResult> HandleAsync(
+        ClaimsPrincipal user,
+        ICategoryHandler handler, long id
+    )
     {
         var request = new GetCategoryByIdRequest()
         {
             Id = id,
-            UserId = "teste@balta.io"
+            UserId = user.Identity?.Name ?? string.Empty
         };
         var result = await handler.GetByIdAsync(request);
-        
-        return result.IsSuccess 
+
+        return result.IsSuccess
             ? TypedResults.Ok(result)
             : Results.BadRequest(result);
     }
