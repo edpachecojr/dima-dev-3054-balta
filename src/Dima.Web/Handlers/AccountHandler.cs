@@ -15,7 +15,7 @@ public class AccountHandler(IHttpClientFactory httpClientFactory) : IAccountHand
     {
         var result = await _httpClient.PostAsJsonAsync($"{_identityBasePath}/login?useCookies=true", request);
         return result.IsSuccessStatusCode 
-            ? new Response<string>("Login realizado com sucesso", 204, "") 
+            ? new Response<string>("Login realizado com sucesso!", 200, "Login realizado com sucesso!") 
             : new Response<string>(null, (int)result.StatusCode, "Não foi possível realizar login");
     }
 
@@ -23,7 +23,7 @@ public class AccountHandler(IHttpClientFactory httpClientFactory) : IAccountHand
     {
         var result = await _httpClient.PostAsJsonAsync($"{_identityBasePath}/register", request);
         return result.IsSuccessStatusCode 
-            ? new Response<string>("Cadastro realizado com sucesso", 201, "") 
+            ? new Response<string>("Cadastro realizado com sucesso!", 201, "Cadastro realizado com sucesso!") 
             : new Response<string>(null, (int)result.StatusCode, "Não foi possível realizar seu cadastro");
     }
 
