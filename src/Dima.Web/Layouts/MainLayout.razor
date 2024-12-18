@@ -1,20 +1,28 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" Theme="Configuration.Theme" />
-<MudSnackbarProvider />
+<MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isDarkMode" Theme="Configuration.Theme"/>
+<MudSnackbarProvider/>
 
-<MudLayout>
-    <MudAppBar>
-        DIMA
-        <MudSpacer />
-        <MudSwitch @bind-Value="@_isDarkMode" />
-    </MudAppBar>
-    <MudMainContent>
-        <MudContainer>
-            @Body
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+<AuthorizeView>
+    <Authorized>
+        <MudLayout>
+            <MudAppBar>
+                DIMA
+                <MudSpacer/>
+                <MudText Typo="Typo.caption">@context.User.Identity?.Name</MudText>
+                <MudSwitch @bind-Value="@_isDarkMode"/>
+            </MudAppBar>
+            <MudMainContent>
+                <MudContainer>
+                    @Body
+                </MudContainer>
+            </MudMainContent>
+        </MudLayout>
+    </Authorized>
+    <NotAuthorized>
+        <LoginRedirect/>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code
 {
