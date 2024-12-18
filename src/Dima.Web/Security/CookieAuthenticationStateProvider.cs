@@ -42,7 +42,14 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory httpClientFact
 
     private async Task<User?> GetUser()
     {
-        return await _httpClient.GetFromJsonAsync<User?>($"{_identityBasePath}/manage/info");
+        try
+        {
+            return await _httpClient.GetFromJsonAsync<User?>($"{_identityBasePath}/manage/info");
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private async Task<List<Claim>> GetClaims(User user)

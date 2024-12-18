@@ -1,19 +1,19 @@
 ﻿<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <AuthorizeView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
-                    <h1>Você não tem acesso a essa funcionalidade</h1>
+                    <h1>Você não tem acesso a esta funcionalidade!</h1>
                 </NotAuthorized>
-            </AuthorizeView>
-            @*<FocusOnNavigate RouteData="@routeData" Selector="h1" />*@
+            </AuthorizeRouteView>
+            @* <FocusOnNavigate RouteData="@routeData" Selector="h1" /> *@
         </Found>
         <NotFound>
-            <PageTitle>Página não encontrada</PageTitle>
+            <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">Não foi possível encontrar a página solicitada</p>
+                <h1>Erro 404</h1>
+                <p>Página não encontrada</p>
             </LayoutView>
         </NotFound>
     </Router>
-
 </CascadingAuthenticationState>
