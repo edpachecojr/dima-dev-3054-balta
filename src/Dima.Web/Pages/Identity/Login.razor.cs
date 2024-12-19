@@ -45,7 +45,7 @@ public partial class LoginPage : ComponentBase
             }
             else
             {
-                Snackbar.Add(result.Message, Severity.Error);
+                Snackbar.Add(result.Message ?? string.Empty, Severity.Error);
             }
         }
         catch (Exception ex)
