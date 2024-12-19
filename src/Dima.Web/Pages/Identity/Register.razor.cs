@@ -41,12 +41,12 @@ public partial class RegisterPage : ComponentBase
 
             if (result.IsSuccess)
             {
-                Snackbar.Add(result.Message, Severity.Success);
+                Snackbar.Add(result.Message ?? string.Empty, Severity.Success);
                 NavigationManager.NavigateTo("/login");
             }
             else
             {
-                Snackbar.Add(result.Message, Severity.Error);
+                Snackbar.Add(result.Message ?? string.Empty, Severity.Error);
             }
         }
         catch (Exception ex)
