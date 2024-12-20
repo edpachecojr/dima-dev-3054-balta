@@ -8,7 +8,7 @@ namespace Dima.Web.Handlers;
 
 public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHandler
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClient _httpClient = httpClientFactory.CreateClient(Configuration.HttpClientName);
     private const string BaseUrl = "v1/categories";
 
     public async Task<Response<Category?>> CreateAsync(CreateCategoryRequest request)
@@ -37,6 +37,6 @@ public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHa
            ?? new Response<Category?>(null, 400, "Não foi possível obter a Categoria");
 
     public async Task<PagedResponse<List<Category>>> GetAllAsync(GetAllCategoriesRequest request) =>
-        await _httpClient.GetFromJsonAsync<PagedResponse<List<Category>>>($"{BaseUrl}")
+        await _httpClient.GetFromJsonAsync<PagedResponse<List<Category>>>($"{BaseUrl}?pageNumber=1")
         ?? new PagedResponse<List<Category>>(null, 400, "Não foi possível obter Categorias");
 }
