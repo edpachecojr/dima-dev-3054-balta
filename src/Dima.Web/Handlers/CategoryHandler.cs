@@ -28,8 +28,9 @@ public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHa
     public async Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
     {
         var result = await _httpClient.DeleteAsync($"{BaseUrl}/{request.Id}");
-        return await result.Content.ReadFromJsonAsync<Response<Category?>>()
-               ?? new Response<Category?>(null, 400, "Falha ao excluir categoria");
+        return result.StatusCode == System.Net.HttpStatusCode.NoContent
+            ? new Response<Category?>(null, 204, "Categoria excluída com sucesso")
+            : new Response<Category?>(null, 400, "Falha ao excluir categoria");
     }
 
     public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
