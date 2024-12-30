@@ -1,6 +1,7 @@
 using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
+using Dima.Web.Components;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -9,7 +10,6 @@ namespace Dima.Web.Pages.Categories;
 public partial class ListCategoriesPage : ComponentBase
 {
     public bool IsBusy { get; set; } = false;
-
 
     protected List<Category> Categories { get; private set; } = [];
     public string SearchTerm { get; set; } = string.Empty;
@@ -45,13 +45,29 @@ public partial class ListCategoriesPage : ComponentBase
         }
     }
 
-    public async Task OnDeleteButtonClicked(long id, string title)
+    public async Task OnDeleteButtonClickedAsync(long id, string title)
     {
-        var result = await DialogService.ShowMessageBox(
-            "ATENÇÃO",
-            $"Ao prosseguir a categoria {title} será excluída. Esta é uma ação irreversível! Deseja continuar?");
-
-        if (result is true)
+        var parameters = new DialogParameters<CustomConfirmationDialog> 
+        {
+            { x => x.Title, "ATENÇÃO" },
+            { x => x.Message, $"Ao prosseguir a categoria {title} será excluída. Esta é uma ação irreversível! Deseja continuar?" },
+            { x => x.YesText, "Excluir" },
+            { x => x.CancelText, "Cancelar" },
+            { x => x.Color, Color.Error }
+        };
+        
+        var options = new DialogOptions()
+        {
+            MaxWidth = MaxWidth.Small,
+            Position = DialogPosition.Center,
+            FullWidth = true,
+            NoHeader = false,
+            CloseButton = true
+        };
+        
+        var dialogResult = await DialogService.ShowAsync<CustomConfirmationDialog>("Atenção!", parameters, options);
+        var result = await dialogResult.Result;
+        if (result?.Data is true)
             await OnDeleteAsync(id, title);
         
         StateHasChanged();
@@ -64,7 +80,6 @@ public partial class ListCategoriesPage : ComponentBase
             await Handler.DeleteAsync(new DeleteCategoryRequest { Id = id });
             Categories.RemoveAll(c => c.Id == id);
             Snackbar.Add($"Categoria {title} excluída.", Severity.Success);
-            
         }
         catch (Exception ex)
         {
