@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Dima.Core.Enums;
 
 namespace Dima.Core.Requests.Transactions;
@@ -19,4 +20,19 @@ public class CreateTransactionRequest : Request
     
     [Required(ErrorMessage = "Data inválido")]
     public DateTimeOffset? PaidOrReceivedAt { get; set; }
+
+    [JsonIgnore]
+    public DateTime? PaidOrReceivedDate
+    {
+        get => PaidOrReceivedAt?.DateTime;
+        set
+        {
+            if (value == null)
+            {
+                PaidOrReceivedAt = null;
+                return;
+            }
+            PaidOrReceivedAt = new DateTimeOffset(value.Value);
+        }
+    }
 }
