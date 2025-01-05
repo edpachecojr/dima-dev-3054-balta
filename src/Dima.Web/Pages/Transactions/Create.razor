@@ -1,0 +1,54 @@
+@page "/transactions/add"
+@using Dima.Core.Enums
+@inherits CreateTransactionPage
+
+<MudText Typo="Typo.h3">Nova Transação</MudText>
+
+<MudPaper Class="pa-8 mt-4">
+    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+
+        <MudTextField Label="Título"
+                      HelperText="Campo obrigatório"
+                      @bind-Value="InputModel.Title"
+                      For="@(() => InputModel.Title)"/>
+
+        <MudTextField Label="Valor"
+                      T="decimal"
+                      Format="C"
+                      Variant="Variant.Text"
+                      HelperText="Informe o valor da transação"
+                      @bind-Value="InputModel.Amount"
+                      For="@(() => InputModel.Amount)"/>
+
+        <MudDatePicker Label="Data"
+                       @bind-Date="@InputModel.PaidOrReceivedDate"
+                       HelperText="Selecione a data da efativação da transação"/>
+
+        <MudSelect T="ETransactionType"
+                   Label="Tipo de movimentação"
+                   AnchorOrigin="Origin.BottomCenter"
+                   @bind-Value="InputModel.Type">
+            <MudSelectItem T="ETransactionType" Value="ETransactionType.Deposit">Entrada</MudSelectItem>
+            <MudSelectItem T="ETransactionType" Value="ETransactionType.Withdraw">Saída</MudSelectItem>
+        </MudSelect>
+
+        <MudSelect
+            T="long"
+            Label="Categoria"
+            @bind-Value="InputModel.CategoryId"
+            AnchorOrigin="Origin.BottomCenter">
+            @foreach (var category in Categories)
+            {
+                <MudSelectItem T="long" Value="@category.Id">@category.Title</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudButton ButtonType="ButtonType.Submit"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Class="mt-4">
+            Salvar
+        </MudButton>
+    </EditForm>
+</MudPaper>
